@@ -53,7 +53,7 @@ const Register = () => {
                   });
 
                   // create a collection of user chats that'll contain all messages of a particular user
-                  await setDoc(doc(db, "userChats", res.user.uid));
+                  await setDoc(doc(db, "userChats", res.user.uid), {});
 
                   // navigate to chat page
                   navigate("/");
