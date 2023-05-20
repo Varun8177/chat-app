@@ -1,6 +1,7 @@
 import React from "react";
 
-const Message = () => {
+const Message = ({ message }) => {
+  console.log(message);
   return (
     <div className="message">
       <div className="messageInfo">
