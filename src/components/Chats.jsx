@@ -1,48 +1,39 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase";
+import { AuthContext } from "../context/AuthContext";
 
 const Chats = () => {
+  const [chats, setChats] = useState([]);
+  const { currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    const getChats = () => {
+      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+        setChats(doc.data());
+      });
+
+      return () => {
+        unsub();
+      };
+    };
+    currentUser.uid && getChats();
+  }, [currentUser.uid]);
+
+  console.log(Object.entries(chats));
   return (
     <div className="chats">
-      <div className="userChat">
-        <img
-          src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80"
-          alt=""
-        />
-        <div className="userChatInfo">
-          <span>Demo</span>
-          <p>Hello!!</p>
-        </div>
-      </div>
-      <div className="userChat">
-        <img
-          src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80"
-          alt=""
-        />
-        <div className="userChatInfo">
-          <span>Demo</span>
-          <p>Hello!!</p>
-        </div>
-      </div>
-      <div className="userChat">
-        <img
-          src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80"
-          alt=""
-        />
-        <div className="userChatInfo">
-          <span>Demo</span>
-          <p>Hello!!</p>
-        </div>
-      </div>
-      <div className="userChat">
-        <img
-          src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80"
-          alt=""
-        />
-        <div className="userChatInfo">
-          <span>Demo</span>
-          <p>Hello!!</p>
-        </div>
-      </div>
+      {Object.entries(chats)?.map((chat) => {
+        return (
+          <div className="userChat" key={chat[0]}>
+            <img src={chat[1].userInfo.photoURL} alt={chat[0]} />
+            <div className="userChatInfo">
+              <span>{chat[1].userInfo.displayName}</span>
+              <p>{chat[1].userInfo.lastMessage?.text || null}</p>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
