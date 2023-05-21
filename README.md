@@ -1,8 +1,21 @@
 # Chat-app
 
-## Description
+## Description:
 
 A mini project that enables it's users to chat with real time messages.
+
+## Tech Stacks:
+
+- **Firebase**: - For Authentication , Database and Image Hoisting.
+
+- **React**: - For building user interfaces.
+
+- **React Router DOM**: - For Navigation.
+
+- **Sass**: - For styling.
+
+- **UUID**: - generating unique ID's.
+
 
 ## Features:
 
@@ -13,7 +26,7 @@ A mini project that enables it's users to chat with real time messages.
 - Latest messages at the top.
 - User can send files.
 - Smooth user experience.
-- 
+ 
 ## Preview 
 
 ### Login Page
